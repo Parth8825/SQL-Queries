@@ -1,0 +1,2 @@
+# AssignmentsSQLQueries
+SQL Queries
