@@ -1,3 +1,4 @@
+/* Assignment 1 */
 /* Q1. */
 CREATE DATABASE Inventory;
 
@@ -79,9 +80,16 @@ SELECT * FROM customer
 WHERE country = 'USA';
 
 /* Q10. */
+SELECT * FROM customer
+WHERE grade = 200;
 
 /* Q11. */
+SELECT * FROM salesman
+WHERE commission > 0.12;
 
 /* Q12. */
+SELECT * FROM orders
+WHERE purch_amt < 2000;
 
 /* Q13. */
+ALTER TABLE customer DROP COLUMN country;
