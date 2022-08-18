@@ -1,4 +1,4 @@
---JOINS
+--JOINS --
 -- Q14
 SELECT name AS salesman_name,
 cust_name, c.city 
@@ -59,7 +59,7 @@ SELECT *
 FROM  orders 
 WHERE ord_date = '2012-08-17' OR (customer_id > 3005 AND purch_amt < 1000);
 
---AGGREGATE
+--AGGREGATE --
 -- Q24
 SELECT SUM(purch_amt) 
 FROM orders;
@@ -115,3 +115,42 @@ ORDER BY ord_date DESC;
 SELECT * 
 FROM orders 
 ORDER BY ord_date, purch_amt DESC;
+
+-- VIEW --
+-- Q36
+CREATE VIEW displayAllInfo AS
+SELECT customer.customer_id, cust_name, customer.city, grade, 
+	salesman.salesman_id, name AS salesman_name, commission, 
+	order_no, purch_amt, ord_date 
+FROM customer, orders, salesman;
+
+-- STORED PROCEDURE
+-- Q37
+-- Q38
+-- Q39
+-- Q40
+-- Q41
+
+-- DATE FUNCTION --
+-- Q42
+SELECT YEAR(ord_date) AS YearsOnly
+FROM orders;
+
+-- Q43
+SELECT FORMAT (ord_date, 'dd-MM-yy') as ord_date
+FROM orders;
+
+-- Q44
+SELECT *
+FROM orders
+WHERE MONTH(ord_date) = '01';
+
+-- Q45
+SELECT *
+FROM orders
+WHERE DAY(ord_date) BETWEEN '15' AND '30';
+
+-- USER DEFINED FUNCTION --
+-- Q46
+-- Q47
+-- Q48
