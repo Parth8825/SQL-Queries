@@ -118,11 +118,17 @@ ORDER BY ord_date, purch_amt DESC;
 
 -- VIEW --
 -- Q36
+DROP VIEW IF EXISTS displayAllInfo
+GO
 CREATE VIEW displayAllInfo AS
-SELECT customer.customer_id, cust_name, customer.city, grade, 
-	salesman.salesman_id, name AS salesman_name, commission, 
+SELECT c.customer_id, cust_name, c.city, grade, 
+	c.salesman_id, name AS salesman_name, commission, 
 	order_no, purch_amt, ord_date 
-FROM customer, orders, salesman;
+FROM (customer c
+	  JOIN orders o
+	  ON c.customer_id = o.customer_id)
+JOIN salesman s
+ON c.salesman_id = s.salesman_id;
 
 -- STORED PROCEDURE
 -- Q37
