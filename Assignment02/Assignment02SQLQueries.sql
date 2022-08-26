@@ -239,11 +239,11 @@ BEGIN
 	RETURN @TotalAmount;
 END
 -- To Execute Function
-
+SELECT dbo.fn_CustomerTotalAmount(3001) AS 'Total Amount' FROM orders;
 -- Q47
-DROP FUNCTION IF EXISTS SalesmanTotalCommission
+DROP FUNCTION IF EXISTS fn_SalesmanTotalCommission
 GO
-CREATE FUNCTION SalesmanTotalCommission (@SalesmanId INT)
+CREATE FUNCTION fn_SalesmanTotalCommission (@SalesmanId INT)
 RETURNS DECIMAL(3,2)
 AS
 	BEGIN 
@@ -254,11 +254,11 @@ AS
 	RETURN @Commission
 END
 -- To Execute Function
-
+SELECT dbo.fn_SalesmanTotalCommission(5001) AS 'Commission' FROM salesman;
 -- Q48
-DROP FUNCTION IF EXISTS CustomerPlacedOrder 
+DROP FUNCTION IF EXISTS fn_CustomerPlacedOrder 
 GO
-CREATE FUNCTION CustomerPlacedOrder (@OrderId INT)
+CREATE FUNCTION fn_CustomerPlacedOrder  (@OrderId INT)
 RETURNS TABLE
 AS
 RETURN
@@ -268,4 +268,4 @@ RETURN
 	ON c.customer_id = o.customer_id
 	WHERE o.order_no = @OrderId;
 --To Execute Function
-SELECT * FROM CustomerPlacedOrder(70002);
+SELECT * FROM fn_CustomerPlacedOrder (70002);
