@@ -132,10 +132,78 @@ ON c.salesman_id = s.salesman_id;
 
 -- STORED PROCEDURE
 -- Q37
+DROP PROCEDURE IF EXISTS SP_OrderInfoWithCustomer
+GO
+CREATE PROCEDURE SP_OrderInfoWithCustomer
+AS
+SELECT c.customer_id, 
+	   c.cust_name, 
+	   c.city, 
+	   c.grade,
+	   o.order_no, 
+	   o.purch_amt, 
+	   o.ord_date
+FROM customer AS c 
+JOIN orders AS o
+ON c.customer_id = o.customer_id
+ORDER BY c.customer_id;
+-- To Execute Stored Procedure
+EXEC SP_OrderInfoWithCustomer;
+
 -- Q38
+DROP PROCEDURE IF EXISTS SP_CustomerInfoWithSalesman
+GO
+CREATE PROCEDURE SP_CustomerInfoWithSalesman
+			@CustomerId INT
+AS
+SELECT c.customer_id,
+	   c.cust_name, 
+	   c.city, 
+	   c.grade ,
+	   s.name AS salesman_name, 
+	   s.city, 
+	   s.commission
+FROM customer AS c 
+JOIN salesman AS s
+ON c.salesman_id = s.salesman_id
+WHERE @CustomerId = c.customer_id;
+-- To Execute Stored Procedure
+EXEC SP_CustomerInfoWithSalesman @CustomerId = 3005;
+
 -- Q39
+DROP PROCEDURE IF EXISTS SP_CustomerInfo
+GO
+CREATE PROCEDURE SP_CustomerInfo
+AS
+	SELECT *
+	FROM customer;
+-- To Execute Stored Procedure
+EXEC SP_CustomerInfo;
+
 -- Q40
+DROP PROCEDURE IF EXISTS SP_SalesmanInfo
+GO
+CREATE PROCEDURE SP_SalesmanInfo
+			@SalesmanId INT
+AS
+SELECT *
+FROM salesman 
+WHERE @SalesmanId = salesman_id;
+-- To Execute Stored Procedure
+EXEC SP_SalesmanInfo @SalesmanId = 5005;
+
 -- Q41
+DROP PROCEDURE IF EXISTS SP_ChangeCityFromCustomer
+GO
+CREATE PROCEDURE SP_ChangeCityFromCustomer
+			   	 @City VARCHAR(255),
+				 @CustomerId INT
+AS
+	UPDATE customer
+	SET city = @City
+	WHERE customer.customer_id = @CustomerID;
+-- To execute stored procedure
+EXEC SP_ChangeCityFromCustomer @City = 'Paris', @CustomerID = 3001;
 
 -- DATE FUNCTION --
 -- Q42
@@ -158,5 +226,46 @@ WHERE DAY(ord_date) BETWEEN '15' AND '30';
 
 -- USER DEFINED FUNCTION --
 -- Q46
+DROP FUNCTION IF EXISTS fn_CustomerTotalAmount
+GO
+CREATE FUNCTION fn_CustomerTotalAmount (@CustomerId INT)
+RETURNS INT
+AS 
+BEGIN
+	DECLARE @TotalAmount INT;
+	SELECT @TotalAmount = SUM(purch_amt) 
+	FROM orders
+	WHERE customer_id = @CustomerId;
+	RETURN @TotalAmount;
+END
+-- To Execute Function
+SELECT dbo.fn_CustomerTotalAmount(3001) AS 'Total Amount' FROM orders;
 -- Q47
+DROP FUNCTION IF EXISTS fn_SalesmanTotalCommission
+GO
+CREATE FUNCTION fn_SalesmanTotalCommission (@SalesmanId INT)
+RETURNS DECIMAL(3,2)
+AS
+	BEGIN 
+	DECLARE @Commission DECIMAL(3,2);
+	SELECT @Commission = commission
+	FROM salesman
+	WHERE salesman_id = @SalesmanId
+	RETURN @Commission
+END
+-- To Execute Function
+SELECT dbo.fn_SalesmanTotalCommission(5001) AS 'Commission' FROM salesman;
 -- Q48
+DROP FUNCTION IF EXISTS fn_CustomerPlacedOrder 
+GO
+CREATE FUNCTION fn_CustomerPlacedOrder  (@OrderId INT)
+RETURNS TABLE
+AS
+RETURN
+	SELECT c.cust_name, o.purch_amt, o.order_no
+	FROM customer c 
+	JOIN orders o
+	ON c.customer_id = o.customer_id
+	WHERE o.order_no = @OrderId;
+--To Execute Function
+SELECT * FROM fn_CustomerPlacedOrder (70002);
