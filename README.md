@@ -1,2 +1,2 @@
-# AssignmentsSQLQueries
-SQL Queries
+# SQL Queries
+learning
