@@ -1,10 +1,10 @@
 /* Assignment 1 */
-/* Q1. */
+/* Q1. Create a Database Named "Inventory" */
 CREATE DATABASE Inventory;
 
 
 
-/* Q3. */
+/* Q3. Create customer table*/
 CREATE TABLE customer (
 	customer_id INT PRIMARY KEY,
 	cust_name VARCHAR(255),
